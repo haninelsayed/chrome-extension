@@ -1,10 +1,22 @@
+
+
 {
-    "manifest_version": 3,
-    "version": "1.0",
-    "name": "Leads tracker",
-    "action": {
-        "default_popup": "index.html",
-        "default_icon": "icon.png"
-    },
-    "permissions": ["tabs"]
+  "manifest_version": 3,
+  "name": "CartCache",
+  "version": "1.0",
+  "description": "Save and open your shopping cart links without keeping a million tabs open.",
+  "permissions": [
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://*.shein.com/*"
+  ],
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  }
 }

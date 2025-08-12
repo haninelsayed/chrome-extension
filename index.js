@@ -1,64 +1,73 @@
-
-let myLeads = []
+let myLinks = []
 const inputEl = document.getElementById("input-el")
 const inputBtn = document.getElementById("input-btn")
 const ulEl = document.getElementById("ul-el")
 const deleteBtn = document.getElementById("delete-btn")
-const deleteLast = document.getElementById("delete-last")
-const leadsFromLocalStorage = JSON.parse( localStorage.getItem("myLeads"))
+const linksFromLocalStorage = JSON.parse( localStorage.getItem("myLinks") )
 const tabBtn = document.getElementById("tab-btn")
+const deleteItem = document.getElementsByClassName("delete-item")
 
-if (leadsFromLocalStorage) {
-    myLeads = leadsFromLocalStorage
-    render(myLeads)
+if (linksFromLocalStorage) {
+    myLinks = linksFromLocalStorage
+    render(myLinks)
 }
 
-tabBtn.addEventListener("click", function() {    
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      myLeads.push(tabs[0].url)
-      localStorage.setItem("myLeads", JSON.stringify(myLeads))
-      render(myLeads)
-  })
+tabBtn.addEventListener("click", function(){    
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        myLinks.push(tabs[0].url)
+        localStorage.setItem("myLinks", JSON.stringify(myLinks))
+        render(myLinks)
+    })
 })
 
-function render(leads) {
-  let listItems = ""
-  for (let i = 0; i < leads.length; i++) {
-      // template string - template literal
+function render(links) {
+    let listItems = ""
+    for (let i = 0; i < links.length; i++) {
         listItems += `
             <li>
-                <a target='_blank' href='${leads[i]}'>
-                    ${leads[i]}
+                <a target='_blank' href='${links[i]}'>
+                    ${links[i]}
                 </a>
+                <span class="delete-item" data-index="${i}">
+                    X
+                </span>
             </li>
         `
-        // (alternative solution for line 14)
-        // const li = document.createElement("li")
-        // li.textContent = myLeads[i]
-        // ulEl.append(li)
-      }
-    ulEl.innerHTML = listItems  
+    }
+    ulEl.innerHTML = listItems
+
+    // delete item (X) 
+    document.querySelectorAll(".delete-item").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const index = Number(this.dataset.index)
+            myLinks.splice(index, 1)
+            localStorage.setItem("myLinks", JSON.stringify(myLinks))
+            render(myLinks)
+        })
+    })
 }
 
-deleteBtn.addEventListener("click", function() {
-localStorage.clear()
-myLeads = []
-render(myLeads)
-})
 
-deleteLast.addEventListener("click", function() {
-  // let deleteRecord = JSON.parse(localStorage.getItem("myLeads"))
-  // for (let i = 0; i < deleteRecord.length; i++) {
-  //         deleteRecord.pop()       
-  // }
-  // localStorage.setItem("myLeads", JSON.stringify(deleteRecord))
-  myLeads.pop()
-  render(myLeads)
+deleteBtn.addEventListener("dblclick", function() {
+    localStorage.clear()
+    myLinks = []
+    render(myLinks)
 })
 
 inputBtn.addEventListener("click", function() {
-    myLeads.push(inputEl.value)
+    if (!inputEl.value) return
+    myLinks.push(inputEl.value)
     inputEl.value = ""
-    localStorage.setItem("myLeads", JSON.stringify(myLeads) )
-    render(myLeads)
+    localStorage.setItem("myLinks", JSON.stringify(myLinks))
+    render(myLinks)
+})
+
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+        if (!inputEl.value) return
+        myLinks.push(inputEl.value)
+        inputEl.value = ""
+        localStorage.setItem("myLinks", JSON.stringify(myLinks))
+        render(myLinks)
+    }
 })
