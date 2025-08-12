@@ -1,5 +1,5 @@
 # CartCache - Shopping Links Saver
-CartCache is a Chrome extension that saves your shopping cart or product links so you can close those 372 open tabs and shop with a clear mind. Perfect for SHEIN or any online store, you can keep all your finds in one place, open them later, and never lose track of your wishlist.
+CartCache is a Chrome extension that saves your shopping cart or product links so you can close those million open tabs and shop with a clear mind. Perfect for SHEIN or any online store, you can keep all your finds in one place, open them later, and never lose track of your wishlist.
 # How it works
 ### Saving a link
 -Type or paste a link in the input field
